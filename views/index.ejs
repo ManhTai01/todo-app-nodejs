@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>Quản Lý Công Việc</h1>
+            <hr/>
+        </div>
+        <div class="row">
+
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="add-todo" style="display: none;">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Thêm Công Việc</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="add/todo" method="post">
+                            <div class="form-group">
+                                <label>Tên :</label>
+                                <input type="text" name="name" class="form-control" />
+                            </div>
+                            <label>Trạng Thái :</label>
+                            <select class="form-control" name="status" required="required">
+                                <option value="1">Kích Hoạt</option>
+                                <option value="0">Ẩn</option>
+                            </select>
+                            <br/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-warning">Thêm</button>&nbsp;
+                                <button type="submit" class="btn btn-danger">Hủy Bỏ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"  id="menu" style="width: 100%;">
+                <button type="button" class="btn btn-primary" onclick="showModel()">
+                    <span class="fa fa-plus mr-5"></span>Thêm Công Việc
+                </button>
+               
+                <div class="row mt-15" style="margin-top: 20px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Tên</th>
+                                    <th class="text-center">Trạng Thái</th>
+                                    <th class="text-center">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+<%
+let cssClass = {
+    true: "success",
+    false: "warning"
+
+} 
+%>
+                                <% todo.forEach((todos,index )=> {
+                                    %>
+                                <tr>
+                                    <td><%= index%></td>
+                                    <td><%= todos.name %></td>
+                                    <td class="text-center">
+                                            
+                                        <a href="/update/status/<%= todos._id %>?status=<%= todos.status %>" type="button" class="label label-<%=cssClass[todos.status]%>"> 
+                                            <% if(todos.status){ %>
+                                                Kích Hoạt
+                                              <% } else{ %>  
+                                                Ẩn
+                                             <% } %>
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/update/<%= todos._id %>" type="button" class="btn btn-warning">
+                                            <span class="fa fa-pencil mr-5"></span>Sửa
+                                        </a>
+                                        &nbsp;
+                                        <a href="delete/todo/<%= todos._id %>" type="button" class="btn btn-danger">
+                                            <span class="fa fa-trash mr-5"></span>Xóa
+                                        </a>
+                                        </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showModel(){
+            var x=document.getElementById("add-todo")
+            if(x.style.display === "block"){
+                x.style.display="none"
+                
+            }
+            else {
+                x.style.display ="block"
+            }
+            if (x.style.display === "none"){
+                var y=document.getElementById("menu")
+                y.style.width= "100%"
+            }
+            else{
+                var y=document.getElementById("menu")
+                y.style.width= "66.66666667%"
+            }
+        }
+        
+    </script>
+
+
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
+
+</html>
